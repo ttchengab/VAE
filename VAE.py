@@ -113,8 +113,8 @@ for epoch in range(num_epochs):
         out, mu, logVar = net(imgs)
 
         # The loss is the BCE loss combined with the KL divergence to ensure the distribution is learnt
-        kl_divergence = 0.5 * torch.sum(1 + logVar - mu.pow(2) - logVar.exp())
-        loss = F.binary_cross_entropy(out, imgs, size_average=False) - kl_divergence
+        kl_divergence = -0.5 * torch.sum(1 + logVar - mu.pow(2) - logVar.exp())
+        loss = F.binary_cross_entropy(out, imgs, size_average=False) + kl_divergence
 
         # Backpropagation based on the loss
         optimizer.zero_grad()
